@@ -8,4 +8,8 @@ function registerUser(userData) {
 	return instanse.post('/signup', userData);
 }
 
-export { registerUser };
+function loginUser(userData) {
+	return instanse.post('login', userData);
+}
+
+export { registerUser, loginUser };
