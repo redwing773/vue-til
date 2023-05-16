@@ -15,6 +15,7 @@
 
 <script>
 import { loginUser } from '@/api/index';
+import { validateEmail } from '@/utils/validation';
 // import axios from 'axios';
 export default {
 	data() {
@@ -28,12 +29,22 @@ export default {
 	},
 	methods: {
 		async submitForm() {
-			const userData = {
-				username: this.username,
-				password: this.password,
-			};
-			const { data } = await loginUser(userData);
-			this.logMessage = `${data.user.username}님 환영합니다`;
+			try {
+				// 비즈니스 로직
+				const userData = {
+					username: this.username,
+					password: this.password,
+				};
+				const { data } = await loginUser(userData);
+				// console.log(data.user.username);
+				this.logMessage = `${data.user.username}님 환영합니다`;
+				// this.initForm();
+			} catch (error) {
+				// 에러 핸들링할 코드
+				this.logMessage = error.response.data;
+			} finally {
+				this.initForm();
+			}
 		},
 		initForm() {
 			this.username = '';
