@@ -1,25 +1,35 @@
 <template>
-	<form @submit.prevent="submitForm">
-		<div>
-			<label for="username">id: </label>
-			<input id="username" type="text" v-model="username" />
+	<div class="contents">
+		<div class="form-wrapper form-wrapper-sm">
+			<form @submit.prevent="submitForm" class="form">
+				<div>
+					<label for="username">id: </label>
+					<input id="username" type="text" v-model="username" />
+				</div>
+				<div>
+					<label for="password">pw: </label>
+					<input id="password" type="text" v-model="password" />
+				</div>
+				<div>
+					<label for="nickname">nickname: </label>
+					<input id="nickname" type="text" v-model="nickname" />
+				</div>
+				<button
+					:disabled="!isUsernameValid || !password || !nickname"
+					type="submit"
+				>
+					회원 가입
+				</button>
+				<button @click.prevent="initForm">초기화</button>
+				<p>{{ logMessage }}</p>
+			</form>
 		</div>
-		<div>
-			<label for="password">pw: </label>
-			<input id="password" type="text" v-model="password" />
-		</div>
-		<div>
-			<label for="nickname">nickname: </label>
-			<input id="nickname" type="text" v-model="nickname" />
-		</div>
-		<button type="submit">회원 가입</button>
-		<button @click.prevent="initForm">초기화</button>
-		<p>{{ logMessage }}</p>
-	</form>
+	</div>
 </template>
 
 <script>
 import { registerUser } from '@/api/index';
+import { validateEmail } from '@/utils/validation';
 export default {
 	data() {
 		return {
@@ -29,6 +39,14 @@ export default {
 			// log
 			logMessage: '',
 		};
+	},
+	computed: {
+		isUsernameValid() {
+			return validateEmail(this.username);
+		},
+		// isFormValid() {
+		// 	return false;
+		// },
 	},
 	methods: {
 		async submitForm() {

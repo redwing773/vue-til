@@ -1,5 +1,7 @@
 Vue.JS LV.4 끝장내기 내 레포
 
+original repo
+https://github.com/joshua1988/vue-til
 ---
 # Vue.js 학습 노트 애플리케이션
 
