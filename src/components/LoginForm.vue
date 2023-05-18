@@ -15,10 +15,14 @@
 					<label for="password">pw:</label>
 					<input id="password" type="text" v-model="password" />
 				</div>
-				<button :disabled="!isUsernameValid || !password" type="submit">
+				<button
+					class="btn"
+					:disabled="!isUsernameValid || !password"
+					type="submit"
+				>
 					로그인
 				</button>
-				<p>{{ logMessage }}</p>
+				<p class="log">{{ logMessage }}</p>
 			</form>
 		</div>
 	</div>
@@ -55,11 +59,10 @@ export default {
 					password: this.password,
 				};
 				const { data } = await loginUser(userData);
-				console.log(data.user.username);
+				// console.log(data.token);
+				this.$store.commit('setToken', data.token);
 				this.$store.commit('setUsername', data.user.username);
 				this.$router.push('/main');
-				// this.logMessage = `${data.user.username}님 환영합니다`;
-				// this.initForm();
 			} catch (error) {
 				// 에러 핸들링할 코드
 				console.log(error.user.username);

@@ -15,13 +15,14 @@
 					<input id="nickname" type="text" v-model="nickname" />
 				</div>
 				<button
+					class="btn"
 					:disabled="!isUsernameValid || !password || !nickname"
 					type="submit"
 				>
 					회원 가입
 				</button>
-				<button @click.prevent="initForm">초기화</button>
-				<p>{{ logMessage }}</p>
+				<!-- <button @click.prevent="initForm">초기화</button> -->
+				<p class="log">{{ logMessage }}</p>
 			</form>
 		</div>
 	</div>
