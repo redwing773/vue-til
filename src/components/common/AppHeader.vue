@@ -1,14 +1,19 @@
 <template>
 	<header>
 		<div>
-			<router-link to="/" class="logo"> TIL </router-link>
+			<router-link :to="logoLink" class="logo"> TIL </router-link>
+			<span v-if="isUserLogin" class="username"
+				>by {{ $store.state.username }}</span
+			>
 		</div>
 		<div class="navigations">
+			<!-- 1 -->
 			<template v-if="isUserLogin">
-				<span class="username">{{ $store.state.username }}</span>
-				<a href="javascript:;" @click="logoutUser">Logout</a>
+				<a href="javascript:;" @click="logoutUser" class="logout-button"
+					>Logout</a
+				>
 			</template>
-
+			<!-- 2 -->
 			<template v-else>
 				<router-link to="/login">로그인</router-link>
 				<router-link to="/signup">회원가입</router-link>
@@ -18,15 +23,22 @@
 </template>
 
 <script>
+import { deleteCookie } from '@/utils/cookies';
 export default {
 	computed: {
 		isUserLogin() {
 			return this.$store.getters.isLogin;
 		},
+		logoLink() {
+			return this.$store.getters.isLogin ? '/main' : '/login';
+		},
 	},
 	methods: {
 		logoutUser() {
 			this.$store.commit('clearUsername');
+			this.$store.commit('clearToken');
+			deleteCookie('til_auth');
+			deleteCookie('til_user');
 			this.$router.push('/login');
 		},
 	},

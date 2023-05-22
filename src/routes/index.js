@@ -1,9 +1,10 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import store from '@/store/index';
 
 Vue.use(VueRouter);
 
-export default new VueRouter({
+const router = new VueRouter({
 	mode: 'history',
 	routes: [
 		{
@@ -12,7 +13,7 @@ export default new VueRouter({
 		},
 		{
 			path: '/login',
-			// component: LoginPage,
+			// component: LoginPage, 아래와 같은게 코드 스플리팅
 			component: () => import('@/views/LoginPage.vue'),
 		},
 		{
@@ -22,10 +23,17 @@ export default new VueRouter({
 		{
 			path: '/main',
 			component: () => import('@/views/MainPage.vue'),
+			meta: { auth: true },
 		},
 		{
 			path: '/add',
 			component: () => import('@/views/PostAddPage.vue'),
+			meta: { auth: true },
+		},
+		{
+			path: '/post/:id',
+			component: () => import('@/views/PostEditPage.vue'),
+			meta: { auth: true },
 		},
 
 		{
@@ -34,3 +42,15 @@ export default new VueRouter({
 		},
 	],
 });
+
+router.beforeEach((to, from, next) => {
+	console.log(to);
+	if (to.meta.auth && !store.getters.isLogin) {
+		console.log('인증이 필요합니다');
+		next('/login');
+		return;
+	}
+	next();
+});
+
+export default router;
