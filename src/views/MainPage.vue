@@ -11,13 +11,14 @@
 				></PostListItem>
 			</ul>
 		</div>
+		<router-link to="/add" class="create-button"> + </router-link>
 	</div>
 </template>
 
 <script>
-import { fetchPosts } from '@/api/index';
 import PostListItem from '@/components/posts/PostListItem.vue';
 import LoadingSpinner from '@/components/common/LoadingSpinner.vue';
+import { fetchPosts } from '@/api/index';
 
 export default {
 	components: {
